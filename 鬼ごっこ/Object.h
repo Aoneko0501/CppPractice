@@ -1,0 +1,10 @@
+enum Object {
+	WALL,
+	OBSTACLE,
+	PLAYER,
+	DRAGON,
+	SPACE,
+	PLAYER_MERGE_DRAGON,
+
+	UNKNOWN
+};

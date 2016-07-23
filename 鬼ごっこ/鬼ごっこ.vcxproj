@@ -143,6 +143,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
+    <ClInclude Include="Object.h">
+      <FileType>CppHeader</FileType>
+    </ClInclude>
     <ClCompile Include="Stage.cpp" />
   </ItemGroup>
   <ItemGroup>
