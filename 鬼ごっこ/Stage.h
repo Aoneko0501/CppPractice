@@ -24,7 +24,8 @@ public:
 	~Stage();
 	//プレイヤーの座標を返す(つもり)
 	int isPlayer(Object* state);
+	int isDragon(Object* state);
 	void draw(Object* state, int w, int h);
-	void update(Object* stage, char input, int w, int h);
+	void update(Object* stage, char input,int w, int h);
 	bool checkClear(const Object* stage, int w, int h);//クリアチェッカー
 };
