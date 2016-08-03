@@ -142,10 +142,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="field.cpp" />
     <ClCompile Include="TETRiS.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BLOCKs.h" />
+    <ClInclude Include="BLOCK.h" />
+    <ClInclude Include="Controller.h" />
+    <ClInclude Include="Field.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
