@@ -12,6 +12,8 @@ public:
 	//壁かどうか
 	//壁：true　それ以外：false
 	bool isWall(int x, int y);
+	//壁にブロックがめり込んでいるかどうか
+	bool wallChecker();
 
 	//描画
 	void draw();

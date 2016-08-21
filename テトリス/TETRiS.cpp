@@ -5,12 +5,13 @@ int main() {
 	Field field;
 
 	field.blockSelecter();
-	while (field.isGameOver()) {
+	while (!field.isGameOver()) {
 		field.draw();
 		field.lineChecker();
 		field.gameTimer();
 		printf("\n");
 		field.update();
+		//isGameOverèCê≥
 	}
 	return 0;
 }

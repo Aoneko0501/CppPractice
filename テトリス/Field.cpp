@@ -80,6 +80,15 @@ bool Field::isWall(int x, int y) {
 	else { return false; }
 }
 
+bool Field::wallChecker() {
+		for (int x = 0; x < FIELD_WIDTH; x++) {
+			if (isWall(x, FIELD_HEIGHT - 1)) {
+				if (field[FIELD_HEIGHT - 2][x] == 1)return false;
+			}
+		}
+	return true;
+}
+
 
 void Field::draw()
 {
@@ -139,10 +148,6 @@ void Field::lineChecker()
 
 bool Field::isGameOver()
 {
-	if () {
-		return true;
-	}
-
 	return false;
 }
 
