@@ -19,6 +19,10 @@ public:
 	//更新
 	void update();
 
+	//フィールドクリア
+	void clearField();
+
+
 	//ブロック選択
 	void blockSelecter();
 
@@ -30,4 +34,12 @@ public:
 
 	//タイマー
 	void gameTimer();
+
+	void moveBlockLeft();
+	void moveBlockRight();
+
+	void turnLeftBlock();
+	void turnRightBlock();
+
+	void setKeys();
 };
