@@ -1,17 +1,24 @@
 #include<stdio.h>
+#include<Windows.h>
 #include"Field.h"
 
 int main() {
 	Field field;
+	bool isGameEnd = false;
 
-	field.blockSelecter();
-	while (!field.isGameOver()) {
+	while (!isGameEnd) {
+
 		field.draw();
-		field.lineChecker();
-		field.gameTimer();
 		printf("\n");
+		
+		field.lineChecker();
+
+		isGameEnd = field.isGameOver();
+		field.lineChecker();
 		field.update();
-		//isGameOverèCê≥
+		field.setKeys();
+		field.clearField();
+		field.gameTimer();
 	}
 	return 0;
 }
