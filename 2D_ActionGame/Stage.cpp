@@ -9,7 +9,7 @@ Stage::Stage()
 
 Stage::~Stage()
 {
-	delete this;
+	
 }
 
 void Stage::Update()
