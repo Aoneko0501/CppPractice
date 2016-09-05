@@ -5,6 +5,8 @@ private:
 	float vecX, vecY;//移動速度
 	int width, height;//画像サイズ
 	int gh;//画像格納用ハンドル
+
+	bool live;//生きているかどうか
 public:
 	//初期設定
 	Player();
@@ -16,8 +18,7 @@ public:
 	void SetGh(int gh);
 	void SetVecX(float vx);
 	void SetVecY(float vy);
-	void SetWidth(int w);
-	void SetHeight(int h);
+
 
 	//各パラメータ値取得関数
 	float GetX();
@@ -28,4 +29,8 @@ public:
 	int GetWidth();
 	int GetHeight();
 
+	//移動
+	void Draw();
+	bool Move();
+	void Jump();
 };

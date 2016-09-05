@@ -6,8 +6,10 @@ private:
 	Player* player;
 
 public:
+	static const int WINDOW_X;
+	static const int WINDOW_Y;
+
 	Stage();
-	~Stage();
 
 	void Update();
 	void Draw();

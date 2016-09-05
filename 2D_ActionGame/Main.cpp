@@ -1,12 +1,10 @@
 #include<DxLib.h>
 #include"Stage.h"
 
-#define WINDOW_X 640
-#define WINDOW_Y 480
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
 	ChangeWindowMode(TRUE);
-	SetGraphMode(WINDOW_X, WINDOW_Y, 32);
+	SetGraphMode(Stage::WINDOW_X, Stage::WINDOW_Y, 32);
 
 	if (DxLib_Init() == -1)return -1;
 
