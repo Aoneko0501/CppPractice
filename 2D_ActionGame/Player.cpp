@@ -96,10 +96,5 @@ bool Player::Move()
 
 void Player::Jump()
 {
-	float jumpSpeed = 0.0f;
-
-	while (jumpSpeed <= 15.0f) {
-		y = jumpSpeed * jumpSpeed - Stage::WINDOW_Y;
-		jumpSpeed += 0.05f;
-	}
+	
 }
