@@ -79,7 +79,7 @@ bool Player::Move()
 	}
 
 	//ƒWƒƒƒ“ƒv
-	if (CheckHitKey(KEY_INPUT_SPACE)) {
+	if (CheckHitKey(KEY_INPUT_SPACE) && GetY() == Stage::WINDOW_Y - height) {
 		Jump();
 	}
 	else {
@@ -96,10 +96,10 @@ bool Player::Move()
 
 void Player::Jump()
 {
-	float jumpSpeed = 1.0f;
-	float maxJump = 2.0f;
+	float jumpSpeed = 0.0f;
 
-	if (vecY < maxJump) {
-		vecY -= jumpSpeed;
+	while (jumpSpeed <= 15.0f) {
+		y = jumpSpeed * jumpSpeed - Stage::WINDOW_Y;
+		jumpSpeed += 0.05f;
 	}
 }
