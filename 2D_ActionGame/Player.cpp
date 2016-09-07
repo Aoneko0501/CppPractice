@@ -49,7 +49,6 @@ void Player::Draw()
 
 bool Player::Move()
 {
-
 	//重力加速度
 	float g = 0.95f;
 
@@ -70,10 +69,14 @@ bool Player::Move()
 
 	//左右
 	if (CheckHitKey(KEY_INPUT_RIGHT)) {
-		this->vecX += accel;
+		if (vecX < maxSpeed) {
+			this->vecX += accel;
+		}
 	}
 	else if (CheckHitKey(KEY_INPUT_LEFT)) {
-		this->vecX -= accel;
+		if ((GetVecX() * -1) < maxSpeed) {
+			this->vecX -= accel;
+		}
 	}
 	else {
 		this->vecX *= accel * 0.5f;
@@ -82,7 +85,6 @@ bool Player::Move()
 	//壁判定
 	if (x < 0) { x = 0.0f; vecX = 0.0f; }
 	if (x + width > Stage::WINDOW_X) { x = Stage::WINDOW_X - width; vecX = 0.0f; }
-
 
 	//ジャンプ
 	if (CheckHitKey(KEY_INPUT_SPACE) && GetY() == Stage::WINDOW_Y - height) {
@@ -95,7 +97,6 @@ bool Player::Move()
 	//移動処理
 	x += vecX;
 	y += vecY;
-
 
 	return true;
 }
