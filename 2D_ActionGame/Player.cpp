@@ -13,6 +13,7 @@ Player::Player()
 	this->gh = LoadGraph("Player.png");
 	GetGraphSize(gh, &width, &height);
 	this->live = true;
+	jumpSpeed = 15.0f;
 }
 
 Player::~Player() { delete this; }
@@ -78,6 +79,11 @@ bool Player::Move()
 		this->vecX *= accel * 0.5f;
 	}
 
+	//•Ç”»’è
+	if (x < 0) { x = 0.0f; vecX = 0.0f; }
+	if (x + width > Stage::WINDOW_X) { x = Stage::WINDOW_X - width; vecX = 0.0f; }
+
+
 	//ƒWƒƒƒ“ƒv
 	if (CheckHitKey(KEY_INPUT_SPACE) && GetY() == Stage::WINDOW_Y - height) {
 		Jump();
@@ -96,5 +102,6 @@ bool Player::Move()
 
 void Player::Jump()
 {
-	
+	this->vecY -= jumpSpeed;
+
 }

@@ -3,6 +3,7 @@ class Player {
 private:
 	float x, y;//座標
 	float vecX, vecY;//移動速度
+	float jumpSpeed;
 	int width, height;//画像サイズ
 	int gh;//画像格納用ハンドル
 
