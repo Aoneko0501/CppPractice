@@ -3,6 +3,7 @@
 #include<DxLib.h>
 #include<math.h>
 
+//enumでstateをつくる
 
 Player::Player()
 {
@@ -13,7 +14,7 @@ Player::Player()
 	this->gh = LoadGraph("Player.png");
 	GetGraphSize(gh, &width, &height);
 	this->live = true;
-	jumpSpeed = 15.0f;
+	jumpSpeed = 10.0f;
 }
 
 Player::~Player() { delete this; }
@@ -49,17 +50,23 @@ void Player::Draw()
 
 bool Player::Move()
 {
+	float winX = Stage::WINDOW_X;
+	float winY = Stage::WINDOW_Y;
+
 	//重力加速度
 	float g = 0.95f;
 
 	//加速度
-	float accel = 0.3f;
+	float accel = 0.5f;
 	//最大スピード
-	float maxSpeed = 3.0f;
+	float maxSpeed = 5.0f;
+
+	//2段ジャンプ用フラグ
+	bool doubleJump = false;
 
 	//上下の判定
-	if (y > (float)Stage::WINDOW_Y - this->height) {
-		this->y = Stage::WINDOW_Y - this->height;
+	if (y > winY - height) {
+		this->y = winY - height;
 		this->vecY = 0.0f;
 	}
 	else if (y < 0) {
@@ -67,32 +74,46 @@ bool Player::Move()
 		this->vecY = 0.0f;
 	}
 
+	//ジャンプ
+	//ジャンプした時の加速度を保存する
+	//2段ジャンプ
+	if (CheckHitKey(KEY_INPUT_SPACE) && GetY() == winY - height) {
+		Jump();
+	}
+	else {
+		//落下処理も兼ねている
+		this->vecY += g * 0.5f;
+	}
+
+	
+	if (doubleJump && CheckHitKey(KEY_INPUT_SPACE)){
+		Jump();
+		doubleJump = false;
+	}
+
 	//左右
 	if (CheckHitKey(KEY_INPUT_RIGHT)) {
+		//右
 		if (vecX < maxSpeed) {
 			this->vecX += accel;
 		}
 	}
 	else if (CheckHitKey(KEY_INPUT_LEFT)) {
+		//左
 		if ((GetVecX() * -1) < maxSpeed) {
 			this->vecX -= accel;
 		}
 	}
 	else {
-		this->vecX *= accel * 0.5f;
+		//左右キーが押されていない場合は減速
+		if (y + height >= winY) {
+			this->vecX *= accel  * 0.99f;
+		}
 	}
 
 	//壁判定
-	if (x < 0) { x = 0.0f; vecX = 0.0f; }
-	if (x + width > Stage::WINDOW_X) { x = Stage::WINDOW_X - width; vecX = 0.0f; }
-
-	//ジャンプ
-	if (CheckHitKey(KEY_INPUT_SPACE) && GetY() == Stage::WINDOW_Y - height) {
-		Jump();
-	}
-	else {
-		this->vecY += g * 0.5f;
-	}
+	if (x < 0) { x = 0.0f; vecX = 0.0f; }//左側
+	if (x + width > winX) { x = winX - width; vecX = 0.0f; }//右側
 
 	//移動処理
 	x += vecX;
@@ -104,5 +125,4 @@ bool Player::Move()
 void Player::Jump()
 {
 	this->vecY -= jumpSpeed;
-
 }
