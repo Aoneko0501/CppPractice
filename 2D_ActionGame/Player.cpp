@@ -4,6 +4,13 @@
 #include<math.h>
 
 //enumでstateをつくる
+enum State {
+	STAND,
+	WALK,
+	DUSH,
+	JUMP,
+	NONE
+};
 
 Player::Player()
 {
@@ -15,6 +22,11 @@ Player::Player()
 	GetGraphSize(gh, &width, &height);
 	this->live = true;
 	jumpSpeed = 10.0f;
+
+
+	//2段ジャンプ用フラグ
+	bool doubleJump = false;
+	this->state == STAND;
 }
 
 Player::~Player() { delete this; }
@@ -61,8 +73,6 @@ bool Player::Move()
 	//最大スピード
 	float maxSpeed = 5.0f;
 
-	//2段ジャンプ用フラグ
-	bool doubleJump = false;
 
 	//上下の判定
 	if (y > winY - height) {
@@ -79,6 +89,9 @@ bool Player::Move()
 	//2段ジャンプ
 	if (CheckHitKey(KEY_INPUT_SPACE) && GetY() == winY - height) {
 		Jump();
+
+		//2段ジャンプ可能に(なってない)
+		doubleJump = true;
 	}
 	else {
 		//落下処理も兼ねている

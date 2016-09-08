@@ -1,5 +1,6 @@
 #pragma once
 class Player {
+	enum State;
 private:
 	float x, y;//座標
 	float vecX, vecY;//移動速度
@@ -8,6 +9,9 @@ private:
 	int gh;//画像格納用ハンドル
 
 	bool live;//生きているかどうか
+	bool doubleJump;
+
+	State state;//状態
 public:
 	//初期設定
 	Player();
