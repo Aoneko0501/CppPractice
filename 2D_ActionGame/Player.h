@@ -12,6 +12,7 @@ private:
 	bool doubleJump;
 
 	State state;//ó‘Ô
+	int jump;
 public:
 	//‰Šúİ’è
 	Player();
