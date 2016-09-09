@@ -25,7 +25,8 @@ Player::Player()
 
 
 	//2段ジャンプ用フラグ
-	bool doubleJump = false;
+	bool oldJump = false;
+	bool newJump = false;
 	jump = 0;
 }
 
@@ -76,26 +77,39 @@ bool Player::Move()
 
 
 	//上下の判定
-	if (y > winY - height) {
+	if (onGround()) {
 		this->y = winY - height;
 		this->vecY = 0.0f;
-		doubleJump = false;
+		jump = 0;
 	}
 	else if (y < 0) {
 		this->y = 0.0f;
 		this->vecY = 0.0f;
 	}
 
+	WallChecker();
+
 	//ジャンプ
 	//ジャンプした時の加速度を保存する
 	//2段ジャンプ
-	if (CheckHitKey(KEY_INPUT_SPACE) && (GetY() == winY - height)) {
+
+	newJump = CheckHitKey(KEY_INPUT_SPACE) ? true : false;
+
+	if ((!oldJump && newJump) && (jump % 2 == 0) && onGround()) {
+		Jump();
+	}
+	else if ((!oldJump && newJump) && (jump % 2 == 1)) {
+		SetVecY(0.0f);
 		Jump();
 	}
 	else {
 		//落下処理も兼ねている
 		this->vecY += g * 0.5f;
 	}
+
+	//連続でボタン入力が反応することを防止する
+	oldJump = newJump;
+
 
 
 	//左右
@@ -113,14 +127,12 @@ bool Player::Move()
 	}
 	else {
 		//左右キーが押されていない場合は減速
-		if (y + height >= winY) {
+		if (onGround()) {
 			this->vecX *= accel  * 0.99f;
 		}
 	}
 
-	//壁判定
-	if (x < 0) { x = 0.0f; vecX = 0.0f; }//左側
-	if (x + width > winX) { x = winX - width; vecX = 0.0f; }//右側
+
 
 	//移動処理
 	x += vecX;
@@ -135,3 +147,19 @@ void Player::Jump()
 	jump++;
 
 }
+
+
+bool Player::onGround() {
+	if (y + height >= Stage::WINDOW_Y)return true;
+	return false;
+}
+
+bool Player::WallChecker()
+{
+	//壁判定
+	if (x < 0) { x = 0.0f; vecX = 0.0f; return true; }//左側
+	if (x + width > Stage::WINDOW_X) { x = Stage::WINDOW_X - width; vecX = 0.0f; return true; }//右側
+	return false;
+}
+
+

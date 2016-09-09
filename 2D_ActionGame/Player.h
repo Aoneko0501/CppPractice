@@ -9,7 +9,8 @@ private:
 	int gh;//画像格納用ハンドル
 
 	bool live;//生きているかどうか
-	bool doubleJump;
+	bool oldJump;
+	bool newJump;
 
 	State state;//状態
 	int jump;
@@ -39,4 +40,9 @@ public:
 	void Draw();
 	bool Move();
 	void Jump();
+
+	//地面にいるかどうか？
+	bool onGround();
+	//画面端か？
+	bool WallChecker();
 };
