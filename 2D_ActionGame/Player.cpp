@@ -4,6 +4,13 @@
 #include<math.h>
 
 //enumでstateをつくる
+enum State {
+	STAND,
+	WALK,
+	DUSH,
+	JUMP,
+	NONE
+};
 
 Player::Player()
 {
@@ -15,6 +22,12 @@ Player::Player()
 	GetGraphSize(gh, &width, &height);
 	this->live = true;
 	jumpSpeed = 10.0f;
+
+
+	//2段ジャンプ用フラグ
+	bool oldJump = false;
+	bool newJump = false;
+	jump = 0;
 }
 
 Player::~Player() { delete this; }
@@ -46,6 +59,7 @@ void Player::Draw()
 	DrawFormatString(0, 60, GetColor(255, 255, 255), "Y2座標:%f", GetY() + height);
 	DrawFormatString(0, 80, GetColor(255, 255, 255), "X座標加速度:%f", GetVecX());
 	DrawFormatString(0, 100, GetColor(255, 255, 255), "Y座標加速度:%f", GetVecY());
+	DrawFormatString(0, 120, GetColor(255, 255, 255), "ジャンプ回数:%d", jump);
 }
 
 bool Player::Move()
@@ -61,23 +75,31 @@ bool Player::Move()
 	//最大スピード
 	float maxSpeed = 5.0f;
 
-	//2段ジャンプ用フラグ
-	bool doubleJump = false;
 
 	//上下の判定
-	if (y > winY - height) {
+	if (onGround()) {
 		this->y = winY - height;
 		this->vecY = 0.0f;
+		jump = 0;
 	}
 	else if (y < 0) {
 		this->y = 0.0f;
 		this->vecY = 0.0f;
 	}
 
+	WallChecker();
+
 	//ジャンプ
 	//ジャンプした時の加速度を保存する
 	//2段ジャンプ
-	if (CheckHitKey(KEY_INPUT_SPACE) && GetY() == winY - height) {
+
+	newJump = CheckHitKey(KEY_INPUT_SPACE) ? true : false;
+
+	if ((!oldJump && newJump) && (jump % 2 == 0) && onGround()) {
+		Jump();
+	}
+	else if ((!oldJump && newJump) && (jump % 2 == 1)) {
+		SetVecY(0.0f);
 		Jump();
 	}
 	else {
@@ -85,11 +107,10 @@ bool Player::Move()
 		this->vecY += g * 0.5f;
 	}
 
-	
-	if (doubleJump && CheckHitKey(KEY_INPUT_SPACE)){
-		Jump();
-		doubleJump = false;
-	}
+	//連続でボタン入力が反応することを防止する
+	oldJump = newJump;
+
+
 
 	//左右
 	if (CheckHitKey(KEY_INPUT_RIGHT)) {
@@ -106,14 +127,12 @@ bool Player::Move()
 	}
 	else {
 		//左右キーが押されていない場合は減速
-		if (y + height >= winY) {
+		if (onGround()) {
 			this->vecX *= accel  * 0.99f;
 		}
 	}
 
-	//壁判定
-	if (x < 0) { x = 0.0f; vecX = 0.0f; }//左側
-	if (x + width > winX) { x = winX - width; vecX = 0.0f; }//右側
+
 
 	//移動処理
 	x += vecX;
@@ -125,4 +144,22 @@ bool Player::Move()
 void Player::Jump()
 {
 	this->vecY -= jumpSpeed;
+	jump++;
+
 }
+
+
+bool Player::onGround() {
+	if (y + height >= Stage::WINDOW_Y)return true;
+	return false;
+}
+
+bool Player::WallChecker()
+{
+	//壁判定
+	if (x < 0) { x = 0.0f; vecX = 0.0f; return true; }//左側
+	if (x + width > Stage::WINDOW_X) { x = Stage::WINDOW_X - width; vecX = 0.0f; return true; }//右側
+	return false;
+}
+
+
