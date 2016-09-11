@@ -35,9 +35,11 @@ public:
 	float GetVecY();
 	int GetWidth();
 	int GetHeight();
+	bool isLive();
+
 
 	//ˆÚ“®
-	void Draw();
+	bool Draw();
 	bool Move();
 	void Jump();
 
