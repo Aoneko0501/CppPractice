@@ -23,6 +23,9 @@ Player::Player()
 	this->live = true;
 	jumpSpeed = 10.0f;
 
+	//重力加速度
+	g = 0.95f;
+
 
 	//2段ジャンプ用フラグ
 	bool oldJump = false;
@@ -81,6 +84,8 @@ bool Player::Move()
 	//最大スピード
 	float maxSpeed = 5.0f;
 
+
+
 	//上下の判定
 	if (onGround()) {
 		this->y = winY - height;
@@ -89,7 +94,8 @@ bool Player::Move()
 	}
 	else if (y < 0) {
 		this->y = 0.0f;
-		this->vecY = 0.0f;
+		//落下処理
+		this->vecY += g * 0.5f;
 	}
 
 	WallChecker();
@@ -128,9 +134,6 @@ bool Player::Move()
 
 void Player::Jump()
 {
-	//重力加速度
-	float g = 0.95f;
-
 	newJump = CheckHitKey(KEY_INPUT_SPACE) ? true : false;
 
 	if ((!oldJump && newJump) && (jump % 2 == 0) && onGround()) {

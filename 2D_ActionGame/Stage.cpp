@@ -21,8 +21,12 @@ void Stage::Update()
 
 	//敵が右からプレイヤーにぶつかってきたら敵がisDead()
 	for (int i = 0; i < 10; i++) {
-		if ((int)(player->GetX() + 32.0f) == (int)enemy[i]->GetX()) {
+
+		bool playerHit = ((int)(player->GetX()) == (int)enemy[i]->GetX()) ? true : false;
+
+		if (playerHit) {
 			enemy[i]->isDead();
+			player->Jump();
 		}
 	}
 	Draw();

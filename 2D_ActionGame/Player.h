@@ -8,6 +8,8 @@ private:
 	int width, height;//画像サイズ
 	int gh;//画像格納用ハンドル
 
+	float g;
+
 	bool live;//生きているかどうか
 	bool oldJump;
 	bool newJump;
