@@ -1,43 +1,14 @@
-#include<DxLib.h>
 #include "Stage.h"
-#include "Player.h"
-#include "Enemy.h"
-
-const int Stage::WINDOW_X = 640;
-const int Stage::WINDOW_Y = 480;
 
 Stage::Stage()
 {
-	player = new Player();
+	this->stage_X = 640;
+	this->stage_Y = 480;
 
-	for (int i = 0; i < 10; i++) {
-		enemy[i] = new Enemy((Stage::WINDOW_X + ((float)i * 100.0f)),(Stage::WINDOW_Y - 32.0f));
-	}
+	this->ENEMY_SIZE = 10;
 }
 
-
-void Stage::Update()
+int Stage::GetEnemySize()
 {
-
-	//敵が右からプレイヤーにぶつかってきたら敵がisDead()
-	for (int i = 0; i < 10; i++) {
-
-		bool playerHit = ((int)(player->GetX()) == (int)enemy[i]->GetX()) ? true : false;
-
-		if (playerHit) {
-			enemy[i]->isDead();
-			player->Jump();
-		}
-	}
-	Draw();
-}
-
-void Stage::Draw()
-{
-	if (!player->isLive()) {}
-	else { player->Draw(); }
-
-	for (int i = 0; i < 10; i++) {
-		if (enemy[i]->isAlive()) { enemy[i]->Draw(); }
-	}
+	return this->ENEMY_SIZE;
 }

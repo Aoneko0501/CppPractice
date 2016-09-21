@@ -1,29 +1,25 @@
 #pragma once
-class  Enemy {
-private:
+class Enemy {
 	float x, y;
 	float vecX, vecY;
-	float accel;
 	int width, height;
+
 	int gh;
 
 	bool live;
 
-public:
-	Enemy(float setX,float setY);
-	~Enemy();
+	//倒したときの得点
+	int point;
+	//移動する向き
+	bool vec;
 
-	float GetX();
-	float GetY();
-
-	int getWidth();
-	int getHeight();
-
-	void isDead();
-
-	bool isAlive();
-
-	void Draw();
+private:
 	void Move();
+	void Draw();
 
+public:
+	Enemy() {};
+	Enemy(float x, float y,bool vec);//x座標、y座標,初期位置での向き(true = 右,false = 左)
+
+	void All();
 };
