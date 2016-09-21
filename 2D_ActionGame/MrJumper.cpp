@@ -27,6 +27,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		WaitTimer((1000 / 60) - (endTime - startTime));
 	}
 
+	delete gm;
 	DxLib_End();
 
 	return 0;

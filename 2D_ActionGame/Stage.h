@@ -6,6 +6,6 @@ class Stage {
 	static int ENEMY_SIZE;
 public:
 	Stage();
-
+	int GetEnemySize();
 
 };

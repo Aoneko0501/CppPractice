@@ -1,7 +1,8 @@
 #pragma once
 
 class Stage;
-
+class Player;
+class Enemy;
 
 
 class GameManager
@@ -11,8 +12,14 @@ class GameManager
 		GAME_PLAY,
 		GAME_OVER
 	};
-	Stage *s;
+
+	Stage *stage;
+	Player *player;
+	Enemy *enemy;
+
 	GameState g_State;
+
+
 
 public:
 	GameManager();
