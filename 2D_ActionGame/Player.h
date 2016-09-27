@@ -11,8 +11,11 @@ class Player {
 private:
 	void Move();
 	void Draw();
+	void JumpStateChanger(bool b);
 
 public:
+	void Damage();
 	Player(float x,float y);
+	bool isAlive();
 	void All();
 };
