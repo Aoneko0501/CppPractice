@@ -19,19 +19,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="MrJumper.cpp" />
-    <ClCompile Include="pController.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Stage.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Enemy.h" />
-    <ClInclude Include="GameManager.h" />
-    <ClInclude Include="pController.h" />
+    <Image Include="sozai\Enemy\Enemy1A.bmp" />
+    <Image Include="sozai\Enemy\Enemy1B.bmp" />
+    <Image Include="sozai\Enemy\Enemy2A.bmp" />
+    <Image Include="sozai\Enemy\Enemy2B.bmp" />
+    <Image Include="sozai\HatenaBlock.png" />
+    <Image Include="sozai\Player.png" />
+    <Image Include="sozai\RengaBlock.png" />
+  </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="Player.h" />
-    <ClInclude Include="Stage.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C2D56EBC-AACC-4040-82E7-5704B98B5AA0}</ProjectGuid>
