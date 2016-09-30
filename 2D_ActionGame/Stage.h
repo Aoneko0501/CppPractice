@@ -1,8 +1,13 @@
 #pragma once
+#include"GameManager.h"
+class Block;
+
 class Stage {
-	int width, height;
+	Block *b[300];
 	int score;
 public:
-	Stage(int W_width, int W_height);
-	
+	Stage();
+	void Draw();
+
+	Block GetBlock(int num);
 };
