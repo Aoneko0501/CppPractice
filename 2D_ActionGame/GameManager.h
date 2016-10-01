@@ -13,4 +13,5 @@ public:
 	GameManager(int winX,int winY);
 	~GameManager();
 	void All();
+	void BlockCollider(int num);
 };

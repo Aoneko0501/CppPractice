@@ -22,6 +22,9 @@ void Stage::Draw()
 	b[190]->isExsit = true;
 	b[191]->isExsit = true;
 
+	b[209]->isExsit = true;
+	b[69]->isExsit = true;
+
 	for (int y = 0; y < (WINDOW_Y / 32); y++) {
 		for (int x = 0; x < (WINDOW_X / 32); x++) {
 			b[y*(WINDOW_Y / 32) + x]->Draw();
