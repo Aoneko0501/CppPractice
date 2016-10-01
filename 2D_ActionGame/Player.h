@@ -12,15 +12,19 @@ public:
 
 	bool onGround;
 	bool onBlock;
+
+	bool isJump;
 private:
 	void Move();
 	void Draw();
+public:
 	void JumpStateChanger(bool b);
 
-public:
 	float GetX();
 	float GetY();
 
+	void Walk();
+	void Jump();
 
 	void SetOnBlock(bool b);
 	void Damage();

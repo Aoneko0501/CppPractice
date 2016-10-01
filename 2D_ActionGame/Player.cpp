@@ -3,9 +3,12 @@
 #include<DxLib.h>
 
 static int jumpCounter = 0;
-static bool isJump = false;
 
 static bool showParam = false;
+
+static float accel = 0.5f;
+static float g = 0.95;
+static float maxSpeed = 10.0f;
 
 //スペースキーを押したときのみ、処理を行わせる用の変数
 bool newJumpPush = false;
@@ -22,9 +25,6 @@ static bool isOutOfWindow = true;
 //=============================================
 void Player::Move()
 {
-	float accel = 0.5f;
-	float g = 0.95;
-	float maxSpeed = 10.0f;
 
 	//地面判定=================================
 	onGround = (y >= WINDOW_Y - height) ? true : false;
@@ -48,47 +48,8 @@ void Player::Move()
 		vecX = 0.0f;
 	}
 
-	newJumpPush = (CheckHitKey(KEY_INPUT_SPACE)) ? true : false;
-
-	//ジャンプ====================================
-	if (newJumpPush && !oldJumpPush) {
-		if (!isJump && onGround) {
-			JumpStateChanger(true);
-			jumpCounter++;
-		}
-		else if (isJump && !onGround) {
-			JumpStateChanger(false);
-			jumpCounter++;
-		}
-	}
-	//===================================================
-	//ジャンプしていないときは左右移動
-	//RIGHT==============================================
-	if (CheckHitKey(KEY_INPUT_RIGHT)) {
-
-		if (vecX < 0) { vecX += accel * 1.5f; }//先に左側へ走っていた時
-		else { vecX += accel; }
-
-		if (vecX >= maxSpeed)vecX = maxSpeed;
-
-		gh = LoadGraph("./sozai/PlayerA.png");
-		GetGraphSize(gh, &width, &height);
-	}
-	//LEFT===============================================
-	else if (CheckHitKey(KEY_INPUT_LEFT)) {
-
-		if (vecX > 0) { vecX -= accel * 1.5f; }//先に右側へ走っていた時
-		else { vecX -= accel; }
-
-		if (vecX <= -1 * maxSpeed)vecX = -1 * maxSpeed;
-
-		gh = LoadGraph("./sozai/PlayerB.png");
-		GetGraphSize(gh, &width, &height);
-	}
-	else {
-		if (onGround)vecX *= 0.5;
-	}
-	oldJumpPush = newJumpPush;
+	Jump();
+	Walk();
 
 	//ここで座標を移動させる
 	x += vecX;
@@ -123,6 +84,56 @@ float Player::GetY()
 	return this->y;
 }
 
+void Player::Walk()
+{
+	//===================================================
+	//左右移動
+	//RIGHT==============================================
+	if (CheckHitKey(KEY_INPUT_RIGHT)) {
+
+		if (vecX < 0) { vecX += accel * 1.5f; }//先に左側へ走っていた時
+		else { vecX += accel; }
+
+		if (vecX >= maxSpeed)vecX = maxSpeed;
+
+		gh = LoadGraph("./sozai/PlayerA.png");
+		GetGraphSize(gh, &width, &height);
+	}
+	//LEFT===============================================
+	else if (CheckHitKey(KEY_INPUT_LEFT)) {
+
+		if (vecX > 0) { vecX -= accel * 1.5f; }//先に右側へ走っていた時
+		else { vecX -= accel; }
+
+		if (vecX <= -1 * maxSpeed)vecX = -1 * maxSpeed;
+
+		gh = LoadGraph("./sozai/PlayerB.png");
+		GetGraphSize(gh, &width, &height);
+	}
+	else {
+		if (onGround || onBlock)vecX *= 0.5;
+	}
+}
+
+void Player::Jump()
+{
+	newJumpPush = (CheckHitKey(KEY_INPUT_SPACE)) ? true : false;
+
+	//ジャンプ====================================
+	if (newJumpPush && !oldJumpPush) {
+		if (!isJump && (onGround || onBlock)) {
+			JumpStateChanger(true);
+			jumpCounter++;
+		}
+		else if (isJump && (!onGround||!onBlock)) {
+			JumpStateChanger(false);
+			jumpCounter++;
+		}
+	}
+
+	oldJumpPush = newJumpPush;
+}
+
 
 //描画
 void Player::Draw()
@@ -144,6 +155,7 @@ void Player::Draw()
 		DrawFormatString(0, 20, GetColor(255, 255, 255), "Y軸加速度：%f", vecY);
 		DrawFormatString(0, 40, GetColor(255, 255, 255), "ジャンプ回数：%d", jumpCounter);
 		DrawFormatString(0, 60, GetColor(255, 255, 255), "ジャンプ：%s", isJump ? "true" : "false");
+		DrawFormatString(0, 80, GetColor(255, 255, 255), "ブロック：%s", onBlock ? "true" : "false");
 	}
 
 	oldShowState = newShowState;
@@ -166,6 +178,8 @@ Player::Player(float x, float y)
 
 	this->onGround = false;
 	this->onBlock = false;
+
+	this->isJump = false;
 
 
 }
