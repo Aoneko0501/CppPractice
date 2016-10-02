@@ -36,6 +36,14 @@ void GameManager::All()
 	BlockCollider(69);
 	BlockCollider(209);
 
+	BlockCollider(140);
+	
+	BlockCollider(229);
+
+	BlockCollider(249);
+	BlockCollider(250);
+	BlockCollider(251);
+
 	BlockCollider(55);
 	BlockCollider(75);
 	BlockCollider(95);
@@ -56,18 +64,18 @@ void GameManager::BlockCollider(int num)
 	int by = b.GetBlockY();
 
 	//è„
-	if ((p->y + p->height) > by - 16 && (p->y + p->height) <= by && (p->x + 16 >= bx) && (p->x + 16 < bx + 32)) {
+	if ((p->y + p->height) >= by - 10 && (p->y + p->height) <= by + 16 && (p->x + 16 >= bx) && (p->x + 16 < bx + 32)) {
 		p->onBlock = true;
 		p->isJump = false;
 		p->vecY = 0.0f;
-		p->y = by - 33;
+		p->y = by - 32 - 1;
 		p->Walk();
 		bFlag++;
 	}
 
 	//â∫
 	if ((p->y) <= by + 32 && (p->y) > by + 16 && (p->x + 16 >= bx) && (p->x + 16 < bx + 32)) {
-		p->vecY = 3.0f;
+		p->vecY = 5.0f;
 	}
 
 	//ç∂

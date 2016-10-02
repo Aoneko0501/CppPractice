@@ -70,7 +70,7 @@ void Player::Damage()
 
 //ジャンプしたときに2段ジャンプフラグを変更する
 void Player::JumpStateChanger(bool b) {
-	this->vecY = -17.5f;
+	this->vecY = -15.0f;
 	isJump = b;
 }
 

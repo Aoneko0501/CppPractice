@@ -1,6 +1,7 @@
 #include<DxLib.h>
 #include "Stage.h"
 #include"Block.h"
+#include"Enemy.h"
 #include "GameManager.h"
 
 Stage::Stage()
@@ -9,6 +10,11 @@ Stage::Stage()
 		for (int x = 0; x < (WINDOW_X / 32); x++) {
 			b[y*(WINDOW_X / 32) + x] = new Block(x * 32, y * 32, false);
 		}
+	}
+
+	//Žl•û”ª•û‚É•À‚×‚½‚¢
+	for (int i = 0; i < 8; i++) {
+		e[i] = new Enemy(i*32,i*32);
 	}
 	this->score = 0;
 }
@@ -25,6 +31,13 @@ void Stage::Draw()
 	b[209]->isExsit = true;
 	b[69]->isExsit = true;
 
+	b[140]->isExsit = true;
+
+	b[229]->isExsit = true;
+	b[249]->isExsit = true;
+	b[250]->isExsit = true;
+	b[251]->isExsit = true;
+
 	b[55]->isExsit = true;
 	b[75]->isExsit = true;
 	b[95]->isExsit = true;
@@ -34,8 +47,12 @@ void Stage::Draw()
 
 	for (int y = 0; y < (WINDOW_Y / 32); y++) {
 		for (int x = 0; x < (WINDOW_X / 32); x++) {
-			b[y*(WINDOW_Y / 32) + x]->Draw();
+			b[y*(WINDOW_X / 32) + x]->Draw();
 		}
+	}
+
+	for (int i = 0; i < 8; i++) {
+		e[i]->All();
 	}
 
 	
