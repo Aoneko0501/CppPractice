@@ -1,16 +1,21 @@
 #pragma once
-class Player;
+#include"GameManager.h"
+class Block;
+class Enemy;
 
 class Stage {
-private:
-	Player* player;
+	Block *b[300];
+	Enemy *e[8];
 
+	int score;
 public:
-	static const int WINDOW_X;
-	static const int WINDOW_Y;
-
+	int enemyConter;
+public:
 	Stage();
-
-	void Update();
 	void Draw();
+	void AddScore(int score);
+	bool isGameEnd();
+
+	Block *GetBlock(int block_ID);
+	Enemy *GetEnemy(int enemy_ID);
 };
