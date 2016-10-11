@@ -9,8 +9,13 @@ class Stage {
 
 	int score;
 public:
+	int enemyConter;
+public:
 	Stage();
 	void Draw();
+	void AddScore(int score);
+	bool isGameEnd();
 
-	Block GetBlock(int num);
+	Block *GetBlock(int block_ID);
+	Enemy *GetEnemy(int enemy_ID);
 };

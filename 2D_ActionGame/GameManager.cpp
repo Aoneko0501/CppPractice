@@ -1,7 +1,9 @@
 #include "GameManager.h"
-#include"Stage.h"
+#include "Stage.h"
 #include "Player.h"
-#include"Block.h"
+#include "Block.h"
+#include "Enemy.h"
+#include <DxLib.h>
 
 const int WINDOW_X = 640;
 const int WINDOW_Y = 480;
@@ -12,6 +14,10 @@ GameManager::GameManager(int winX, int winY)
 {
 	p = new Player(winX / 2, winY / 2);
 	s = new Stage();
+
+	this->titleGh = LoadGraph("./sozai/Title.png");
+
+	this->gs = GAME_TITLE;
 }
 
 GameManager::~GameManager()
@@ -22,22 +28,53 @@ GameManager::~GameManager()
 
 void GameManager::All()
 {
-	bFlag = 0;
+	if (this->gs == GAME_TITLE) {
 
-	s->Draw();
-	p->All();
+		DrawGraph(0, 0, titleGh, FALSE);
+		if (CheckHitKey(KEY_INPUT_SPACE)) this->gs = GAME_PLAY;
+	}
+	else if (this->gs == GAME_PLAY)
+	{
+		bFlag = 0;
 
-	//ブロックに乗せるための処理
+		s->Draw();
+		p->All();
 
+		// 選択したブロックを配置
+		SetBlocks();
+
+		if (bFlag == 0) { p->onBlock = false; } // bFlag=ブロックの上に乗っているかどうかの判定
+
+		// 選択した敵を配置
+		SetEnemys();
+
+		if (s->isGameEnd() == true)gs = GAME_CLEAR;
+	}
+	else if (this->gs == GAME_CLEAR)
+	{
+		this->titleGh = LoadGraph("./sozai/GameClear.png");
+		DrawGraph(0, 0, titleGh, FALSE);
+	}
+	else if (this->gs == GAME_OVER)
+	{
+		this->titleGh = LoadGraph("./sozai/GameOver.png");
+		DrawGraph(0, 0, titleGh, FALSE);
+	}
+}
+
+// ブロック配置用関数
+void GameManager::SetBlocks() {
+
+	// IDを指定して出現させるブロックを決める
 	for (int i = 187; i <= 191; i++) {
-		BlockCollider(i);	
+		BlockCollider(i);
 	}
 
 	BlockCollider(69);
 	BlockCollider(209);
 
 	BlockCollider(140);
-	
+
 	BlockCollider(229);
 
 	BlockCollider(249);
@@ -50,20 +87,36 @@ void GameManager::All()
 	BlockCollider(115);
 	BlockCollider(135);
 	BlockCollider(155);
+}
 
-	if (bFlag == 0) { p->onBlock = false; }
+void GameManager::SetEnemys()
+{
+	// ==========どうしたらEnemyCollider()のみで================
+	// ============画像表示の切り替えも出来るか？=================
+	EnemyCollider(0);
+	EnemyCollider(1);
+	EnemyCollider(2);
+	EnemyCollider(3);
+	EnemyCollider(4);
+	EnemyCollider(5);
+	EnemyCollider(6);
+	EnemyCollider(7);
 }
 
 
-//ブロックの当たり判定
-//左右も作りたい
-void GameManager::BlockCollider(int num)
+// ブロックの当たり判定
+void GameManager::BlockCollider(int block_ID)
 {
-	Block b = s->GetBlock(num);
-	int bx = b.GetBlockX();
-	int by = b.GetBlockY();
+	// 指定ブロックのポインタを飛ばすことによって変更可能になる。
 
-	//上
+	Block *b = s->GetBlock(block_ID);
+	int bx = b->GetBlockX();
+	int by = b->GetBlockY();
+
+
+	b->isExsit = true;
+
+	// 上側
 	if ((p->y + p->height) >= by - 10 && (p->y + p->height) <= by + 16 && (p->x + 16 >= bx) && (p->x + 16 < bx + 32)) {
 		p->onBlock = true;
 		p->isJump = false;
@@ -72,20 +125,58 @@ void GameManager::BlockCollider(int num)
 		p->Walk();
 		bFlag++;
 	}
-
-	//下
+	// 下側
 	if ((p->y) <= by + 32 && (p->y) > by + 16 && (p->x + 16 >= bx) && (p->x + 16 < bx + 32)) {
 		p->vecY = 5.0f;
 	}
-
-	//左
+	// 左側
 	if ((p->y + 16 >= by) && (p->y + 16 < by + 32) && (p->x + p->width >= bx) && (p->x + p->width < bx + 32)) {
 		p->x = bx - 32;
 		p->vecX = 0.0f;
 	}
-	//右
-	if ((p->y + 16 >= by) && (p->y + 16 < by + 32) && (p->x < bx + 32)&&(p->x >= bx)) {
+	// 右側
+	if ((p->y + 16 >= by) && (p->y + 16 < by + 32) && (p->x < bx + 32) && (p->x >= bx)) {
 		p->x = bx + 32;
 		p->vecX = 0.0f;
+	}
+}
+
+// 敵の当たり判定
+// 画像表示の有無もここで設定できるようにしたい
+void GameManager::EnemyCollider(int enemy_ID)
+{
+	// 指定した敵のポインタを飛ばすことによって変更可能になる。
+
+	Enemy *e = s->GetEnemy(enemy_ID);
+	float ex = e->GetEnemyX();
+	float ey = e->GetEnemyY();
+
+
+	// 敵が生存していた場合のみ機能させる
+	if (e->isAlive()) {
+		// 上側
+		if ((p->y + p->height) >= ey - 10 && (p->y + p->height) <= ey + 16 && (p->x + 16 >= ex) && (p->x + 16 < ex + 32)) {
+			p->isJump = false;
+			p->y = ey - 32 - 1;
+			p->JumpStateChanger(false);
+			e->Dead();
+			s->AddScore(e->GetScore());
+		}
+
+		// 下側
+		if ((p->y) <= ey + 32 && (p->y) > ey + 16 && (p->x + 16 >= ex) && (p->x + 16 < ex + 32)) {
+			p->vecY = 5.0f;
+		}
+
+		// 左側
+		if ((p->y + 16 >= ey) && (p->y + 16 < ey + 32) && (p->x + p->width >= ex) && (p->x + p->width < ex + 32)) {
+			p->x = ex - 32;
+			p->vecX = 0.0f;
+		}
+		// 右側
+		if ((p->y + 16 >= ey) && (p->y + 16 < ey + 32) && (p->x < ex + 32) && (p->x >= ex)) {
+			p->x = ex + 32;
+			p->vecX = 0.0f;
+		}
 	}
 }

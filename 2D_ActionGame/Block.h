@@ -7,8 +7,10 @@ public:
 	bool isExsit;
 
 	Block(int x,int y,bool exsit);
+	~Block();
 	void Draw();
 
 	int GetBlockX();
 	int GetBlockY();
+
 };

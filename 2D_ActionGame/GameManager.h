@@ -9,9 +9,27 @@ extern const int WINDOW_Y;
 class GameManager {
 	Player *p;
 	Stage *s;
+
+	int titleGh;
 public:
-	GameManager(int winX,int winY);
+	enum GameState {
+		GAME_TITLE,
+		GAME_PLAY,
+		GAME_CLEAR,
+		GAME_OVER
+	};
+
+	GameState gs;
+
+private:
+	void BlockCollider(int block_ID);
+	void EnemyCollider(int enemy_ID);
+public:
+	GameManager(int winX, int winY);
 	~GameManager();
 	void All();
-	void BlockCollider(int num);
+
+	void SetBlocks();
+	void SetEnemys();
+
 };

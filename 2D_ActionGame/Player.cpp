@@ -57,16 +57,10 @@ void Player::Move()
 
 }
 
-void Player::SetOnBlock(bool b)
-{
-	this->onBlock = b;
-}
+void Player::SetOnBlock(bool b) { this->onBlock = b; }
 
 //ダメージ
-void Player::Damage()
-{
-	life--;
-}
+void Player::Damage() { life--; }
 
 //ジャンプしたときに2段ジャンプフラグを変更する
 void Player::JumpStateChanger(bool b) {
@@ -74,15 +68,9 @@ void Player::JumpStateChanger(bool b) {
 	isJump = b;
 }
 
-float Player::GetX()
-{
-	return this->x;
-}
+float Player::GetX() { return this->x; }
 
-float Player::GetY()
-{
-	return this->y;
-}
+float Player::GetY() { return this->y; }
 
 void Player::Walk()
 {
@@ -125,7 +113,7 @@ void Player::Jump()
 			JumpStateChanger(true);
 			jumpCounter++;
 		}
-		else if (isJump && (!onGround||!onBlock)) {
+		else if (isJump && (!onGround || !onBlock)) {
 			JumpStateChanger(false);
 			jumpCounter++;
 		}
@@ -180,8 +168,6 @@ Player::Player(float x, float y)
 	this->onBlock = false;
 
 	this->isJump = false;
-
-
 }
 
 //生きているかどうか

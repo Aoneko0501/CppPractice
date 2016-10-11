@@ -8,6 +8,11 @@ Block::Block(int x,int y,bool exsit)
 	this->isExsit = exsit;
 }
 
+Block::~Block()
+{
+	delete this;
+}
+
 void Block::Draw()
 {
 	if (isExsit) {
