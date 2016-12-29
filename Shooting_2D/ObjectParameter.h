@@ -1,9 +1,9 @@
 #pragma once
 
 #include"Point2D.h"
-class CreatureParameter {
+class ObjectParameter {
 protected:
-	Point2D cPos;
+	Point2D pos;
 	float moveSpeed;
 	bool isDead;
 	int handle;

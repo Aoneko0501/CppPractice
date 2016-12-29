@@ -1,8 +1,8 @@
 #pragma once
 
-#include"CreatureParameter.h"
+#include"ObjectParameter.h"
 
-class Player : public CreatureParameter{
+class Player : public ObjectParameter{
 private:
 	int life;		// c‹@
 	int bomb;		// Šƒ{ƒ€”

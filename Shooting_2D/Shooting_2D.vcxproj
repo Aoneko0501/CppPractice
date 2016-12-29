@@ -148,6 +148,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -159,7 +160,8 @@
     <Image Include="sozai\shooterDragon.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CreatureParameter.h" />
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="ObjectParameter.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Player.h" />
