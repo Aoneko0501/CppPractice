@@ -4,7 +4,6 @@
 class Bullet : public ObjectParameter{
 	Point2D targetPos;
 private:
-	void Move();
 	void Draw();
 	void Update();
 public:

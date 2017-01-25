@@ -61,9 +61,9 @@ Enemy::Enemy(float eX, float eY)
 // Enmey‚ÌAllŠÖ”
 bool Enemy::All()
 {
-	Draw();
 	Move();
 	Update();
+	Draw();
 	if (isDead) {
 		return false;
 	}

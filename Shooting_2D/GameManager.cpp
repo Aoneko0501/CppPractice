@@ -4,6 +4,8 @@
 #include "Stage.h"
 #include "Bullet.h"
 
+
+
 // GameManager‰Šú‰»
 GameManager::GameManager()
 {
@@ -43,7 +45,7 @@ void GameManager::All()
 		enemy[enemyID]->All();
 	}
 
-	for (int bulletID = 0; bulletID < 100; bulletID++) {
+	for (int bulletID = 0; bulletID < ; bulletID++) {
 		bullet[bulletID]->All();
 	}
 }

@@ -54,6 +54,6 @@ void Player::Move() {
 }
 
 void Player::All() {
-	Draw();
 	Move();
+	Draw();
 }

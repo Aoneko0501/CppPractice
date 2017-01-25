@@ -5,28 +5,21 @@
 // ‰Šú‰»ŠÖ”
 Bullet::Bullet(float x, float y)
 {
-	this->pos.x = x;
-	this->pos.y = y;
+	this->pos = Point2D(x, y);
 	this->targetPos = targetPos;
 	this->handle = LoadGraph("sozai/bullet01.bmp");
+	this->isDead = false;
 }
 
 // ‘S‚Ä‚Ìˆ—‚ðŽÀs
 void Bullet::All()
 {
-	Draw();
-	Move();
 	Update();
+	if (!this->isDead) {
+		Draw();
+	}
 }
 
-void Bullet::Move()
-{
-	pos.x += 1.02;
-	pos.y += 5;
-
-	if (pos.x > 640)pos.x = 1;
-	if (pos.y > 480)pos.y = 1;
-}
 
 // •`‰æ
 void Bullet::Draw() {
