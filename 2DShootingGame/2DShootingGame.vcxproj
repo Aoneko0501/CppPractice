@@ -150,6 +150,9 @@
   <ItemGroup>
     <ClCompile Include="DragonShooter.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\src\shooterDragon.bmp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
