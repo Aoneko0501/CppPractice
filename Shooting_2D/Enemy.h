@@ -1,10 +1,13 @@
 #pragma once
 
-#include"CreatureParameter.h"
+#include"ObjectParameter.h"
 /*
  “G‚ð•\‚·ƒNƒ‰ƒX‚Å‚·
  */
-class Enemy:public CreatureParameter{
+class Enemy:public ObjectParameter{
+	int xFlag;
+	int yFlag;
+	int oldFlagX;
 private:
 	void Draw();
 	void Move();
