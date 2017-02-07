@@ -1,4 +1,8 @@
 /*
+
+int pad; // ジョイパッド
+int pov;
+
 pad = GetJoypadInputState(DX_INPUT_KEY_PAD1);
 pov = GetJoypadPOVState(DX_INPUT_PAD1, 0);
 for (int i = 0; i < 28; i++) {
