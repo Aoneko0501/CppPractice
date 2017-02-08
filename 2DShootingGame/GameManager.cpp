@@ -1,9 +1,11 @@
 #include"DxLib.h"
 #include"GameManager.h"
 #include"Player.h"
+#include"Enemy.h"
 
 GameManager::GameManager() {
 	p = new Player();
+	e = new Enemy();
 }
 
 GameManager::~GameManager() {
@@ -12,4 +14,5 @@ GameManager::~GameManager() {
 
 void GameManager::Update() {
 	p->All();
+	e->All();
 }
