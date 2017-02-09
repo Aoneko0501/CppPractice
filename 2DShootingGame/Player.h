@@ -1,21 +1,11 @@
 #pragma once
+#include"Actor.h"
 
-class Player {
-	enum State{
-		ALIVE,
-		DEAD
-	};
-private:
-	int x, y;// 座標
-	float speed;	// 移動速度
-	int handle;	// プレイヤーハンドル
-
-	State p_state;
-private:
-	void Move();
-	void Draw();
+class Player : public Actor {
 public:
 	Player();
 	~Player();
-	void All();
+
+	void Move();
+	State All();
 };

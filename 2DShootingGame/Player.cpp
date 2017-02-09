@@ -1,16 +1,16 @@
 #include"DxLib.h"
 #include "Player.h"
-#include "GameInfo.h"
 
 // コンストラクタ
 Player::Player()
-	:x(0), y(0), handle(LoadGraph("../src/shooterDragon.bmp")), p_state(ALIVE)
 {
+	this->x = 0;
+	this->y = 0;
+	this->handle = LoadGraph("../src/shooterDragon.bmp",true);
 }
 
 // デストラクタ
 Player::~Player() {
-	delete this;
 }
 
 // 移動関数
@@ -34,12 +34,10 @@ void Player::Move() {
 	if (y >= WINDOW_HEIGHT - TIP_W) y = WINDOW_HEIGHT - TIP_W;
 }
 
-void Player::Draw()
-{
-	DrawGraph(x, y, handle, true);
-}
 
-void Player::All() {
+State Player::All() {
 	Move();
 	Draw();
+	
+	return State::ALIVE;
 }

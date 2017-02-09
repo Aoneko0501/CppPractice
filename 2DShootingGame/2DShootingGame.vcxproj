@@ -148,6 +148,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Actor.cpp" />
     <ClCompile Include="DragonShooter.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="GameInfo.cpp" />
@@ -159,6 +160,7 @@
     <Image Include="..\src\shooterDragon.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Actor.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="GameInfo.h" />
     <ClInclude Include="GameManager.h" />

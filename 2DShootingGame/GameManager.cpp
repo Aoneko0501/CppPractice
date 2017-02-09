@@ -1,18 +1,24 @@
 #include"DxLib.h"
 #include"GameManager.h"
-#include"Player.h"
-#include"Enemy.h"
 
 GameManager::GameManager() {
 	p = new Player();
-	e = new Enemy();
+	
+	for (int i = 0; i < ENEMY_MAX; i++) {
+		e[i] = new Enemy(20*i,40*i);
+	}
 }
 
 GameManager::~GameManager() {
-	delete this;
+	delete p;
+	delete[] e;
 }
 
 void GameManager::Update() {
 	p->All();
-	e->All();
+	for (int i = 0; i < ENEMY_MAX; i++) {
+		if (e[i]->All() == State::DEAD) {
+			delete e[i];
+		}
+	}
 }

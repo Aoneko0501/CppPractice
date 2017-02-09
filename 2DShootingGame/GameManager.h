@@ -4,8 +4,7 @@
 class GameManager {
 private:
 	Player* p;
-	Enemy* e;
-
+	Enemy* e[ENEMY_MAX];
 public:
 	GameManager();
 	~GameManager();
