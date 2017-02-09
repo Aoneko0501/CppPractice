@@ -1,11 +1,16 @@
 #pragma once
 #include"Actor.h"
+#include"Bullet.h"
 
+// ActorÉNÉâÉXÇåpè≥Ç∑ÇÈ
 class Player : public Actor {
+	Bullet* bullet[BULLET_MAX];
+
 public:
 	Player();
 	~Player();
 
-	void Move();
-	State All();
+	void Shot();
+	virtual void Move() override;
+	virtual State All() override;
 };

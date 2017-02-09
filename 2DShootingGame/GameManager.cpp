@@ -1,11 +1,17 @@
-#include"DxLib.h"
 #include"GameManager.h"
 
 GameManager::GameManager() {
+	// ƒvƒŒƒCƒ„[‰Šú‰»
 	p = new Player();
 	
-	for (int i = 0; i < ENEMY_MAX; i++) {
-		e[i] = new Enemy(20*i,40*i);
+	// “G‰Šú‰»
+	int handle = LoadGraph("../src/Enemy/Enemy1A.bmp", true);
+	int i;
+	LOOP(i,ENEMY_MAX) {
+		int eX = 20 * i;
+		int eY = 40 * i;
+		e[i] = new Enemy(eX,eY);
+		e[i]->handle = handle;
 	}
 }
 
@@ -16,7 +22,9 @@ GameManager::~GameManager() {
 
 void GameManager::Update() {
 	p->All();
-	for (int i = 0; i < ENEMY_MAX; i++) {
+	int i;
+
+	LOOP(i,ENEMY_MAX){
 		if (e[i]->All() == State::DEAD) {
 			delete e[i];
 		}

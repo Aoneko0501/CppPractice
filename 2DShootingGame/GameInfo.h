@@ -1,7 +1,11 @@
 #pragma once
+#include"DxLib.h"
+// ゲームに関する情報
+#define WINDOW_WIDTH 640	// ウィンドウの幅
+#define WINDOW_HEIGHT 480	// ウィンドウの高さ
+#define TIP_W 32			// 使用画像のサイズ
 
 #define ENEMY_MAX 20		// 敵の最大描画数
-// ゲームに関する情報
-extern const int WINDOW_WIDTH;	// ウィンドウの幅
-extern const int WINDOW_HEIGHT;	// ウィンドウの高さ
-extern const int TIP_W;			// 使用画像のサイズ
+#define BULLET_MAX 50		// 弾の最大描画数
+
+#define LOOP(val,times) for(val = 0;val < (times); val++) // forループのマクロ

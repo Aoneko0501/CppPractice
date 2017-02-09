@@ -18,4 +18,5 @@ public:
 public:
 	virtual void Draw();
 	virtual void Move();
+	virtual State All();
 };

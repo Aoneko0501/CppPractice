@@ -1,5 +1,7 @@
 #pragma once
 #include"Actor.h"
+
+// ActorƒNƒ‰ƒX‚ğŒp³‚·‚é
 class Enemy : public Actor{
 public:
 	Enemy();
