@@ -1,14 +1,25 @@
 #include "Actor.h"
 
+int Actor::getX()
+{
+	return this->x;
+}
+
+int Actor::getY()
+{
+	return this->y;
+}
+
 void Actor::Draw()
 {
+	if(this->state == State::ALIVE)
 	DrawGraph(x, y, handle, false);
 }
 
 void Actor::Move()
 {
 	x++;
-	y++;
+	//y++;
 
 	//if (x < 0) x = 0;
 	if (x >= WINDOW_WIDTH - TIP_W) x = 0;

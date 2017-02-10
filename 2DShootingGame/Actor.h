@@ -8,7 +8,7 @@ enum struct State {
 
 // 生物に関する情報群
 class Actor {
-public:
+protected:
 	int x, y; //座標
 	int handle; // 画像格納用
 	float speed; // 移動速度
@@ -16,6 +16,8 @@ public:
 	State state; // 生存確認
 
 public:
+	int getX();
+	int getY();
 	virtual void Draw();
 	virtual void Move();
 	virtual State All();

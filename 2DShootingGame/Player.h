@@ -4,6 +4,7 @@
 
 // ActorƒNƒ‰ƒX‚ğŒp³‚·‚é
 class Player : public Actor {
+public:
 	Bullet* bullet[BULLET_MAX];
 
 public:

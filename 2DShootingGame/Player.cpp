@@ -6,18 +6,18 @@ Player::Player()
 	this->x = WINDOW_WIDTH / 2;
 	this->y = WINDOW_HEIGHT / 2;
 	this->handle = LoadGraph("../src/shooterDragon.bmp", true);
-
+	this->state = State::ALIVE;
 	// 弾初期化
 	int bulletHandle = LoadGraph("../src/bullet02.png", true);
 	int i;
 	LOOP(i, BULLET_MAX) {
-		bullet[i] = new Bullet(this->x, this->y);
-		bullet[i]->handle = bulletHandle;
+		bullet[i] = new Bullet(this->x, this->y,bulletHandle);
 	}
 }
 
 // デストラクタ
 Player::~Player() {
+	delete[] bullet;
 }
 
 // ショット処理
@@ -27,7 +27,7 @@ void Player::Shot()
 	if (CheckHitKey(KEY_INPUT_Z))
 		LOOP(id, BULLET_MAX) {
 		if (bullet[id]->isDEAD()) {
-			bullet[id]->state = State::ALIVE;
+			bullet[id]->setState(State::ALIVE);
 			bullet[id]->setPoint(this->x, this->y);
 			break;
 		}
@@ -63,6 +63,5 @@ State Player::All() {
 	Move();
 	Draw();
 	Shot();
-
 	return this->state;
 }
