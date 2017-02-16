@@ -1,19 +1,28 @@
 #include "Actor.h"
 
-int Actor::getX()
+float Actor::getX()
 {
 	return this->x;
 }
 
-int Actor::getY()
+float Actor::getY()
 {
 	return this->y;
 }
 
+State Actor::getState()
+{
+	return this->state;
+}
+
+void Actor::setState(State s)
+{
+	this->state = s;
+}
+
 void Actor::Draw()
 {
-	if(this->state == State::ALIVE)
-	DrawGraph(x, y, handle, false);
+	if(this->state == State::ALIVE)DrawGraph(x, y, handle, false);
 }
 
 void Actor::Move()
@@ -27,10 +36,15 @@ void Actor::Move()
 	if (y >= WINDOW_HEIGHT - TIP_W) y = 0;
 }
 
+void Actor::Shot()
+{
+
+}
+
 State Actor::All()
 {
 	Move();
 	Draw();
-
+	Shot();
 	return this->state;
 }

@@ -3,37 +3,46 @@
 // コンストラクタ
 Player::Player()
 {
-	this->x = WINDOW_WIDTH / 2;
-	this->y = WINDOW_HEIGHT / 2;
+	this->x = (float)(WINDOW_WIDTH / 2.0);
+	this->y = (float)(WINDOW_HEIGHT / 2.0);
 	this->handle = LoadGraph("../src/shooterDragon.bmp", true);
 	this->state = State::ALIVE;
+	this->speed = 5.0F;
+	this->group = Group::ACTOR_PLAYER;
 	// 弾初期化
 	int bulletHandle = LoadGraph("../src/bullet02.png", true);
 	int i;
 	LOOP(i, BULLET_MAX) {
-		bullet[i] = new Bullet(this->x, this->y,bulletHandle);
+		bullet[i] = new Bullet(this->x, this->y, bulletHandle);
 	}
 }
 
 // デストラクタ
 Player::~Player() {
-	delete[] bullet;
+	int id;
+	LOOP(id,BULLET_MAX)delete bullet[id];
 }
 
 // ショット処理
+int p_counter = 0;
 void Player::Shot()
 {
+
 	int id;
-	if (CheckHitKey(KEY_INPUT_Z))
+	p_counter++;
+	if (CheckHitKey(KEY_INPUT_Z) && ((p_counter %= 3) == 0) && this->state == State::ALIVE) {
+		p_counter = 0;
 		LOOP(id, BULLET_MAX) {
-		if (bullet[id]->isDEAD()) {
-			bullet[id]->setState(State::ALIVE);
-			bullet[id]->setPoint(this->x, this->y);
-			break;
+			if (bullet[id]->isDEAD()) {
+				bullet[id]->setState(State::ALIVE);
+				bullet[id]->setPoint(this->x, this->y);
+				break;
+			}
 		}
 	}
 
 	LOOP(id, BULLET_MAX) {
+		bullet[id]->y -= (float)(bullet[id]->speed * 2.0F);
 		bullet[id]->All();
 	}
 }
@@ -41,16 +50,16 @@ void Player::Shot()
 // 移動関数
 void Player::Move() {
 	if (CheckHitKey(KEY_INPUT_RIGHT)) {
-		x += 2;
+		x += this->speed;
 	}
 	if (CheckHitKey(KEY_INPUT_LEFT)) {
-		x -= 2;
+		x -= this->speed;
 	}
 	if (CheckHitKey(KEY_INPUT_UP)) {
-		y -= 2;
+		y -= this->speed;
 	}
 	if (CheckHitKey(KEY_INPUT_DOWN)) {
-		y += 2;
+		y += this->speed;
 	}
 
 	if (x < 0) x = 0;
@@ -60,8 +69,14 @@ void Player::Move() {
 }
 
 State Player::All() {
-	Move();
+
 	Draw();
+	// 弾の描写も行う
+	// 死んでいたら動かさない
+	if (this->state == State::ALIVE) {
+		Move();
+	}
 	Shot();
+
 	return this->state;
 }

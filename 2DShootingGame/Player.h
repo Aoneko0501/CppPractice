@@ -11,7 +11,7 @@ public:
 	Player();
 	~Player();
 
-	void Shot();
+	virtual void Shot() override;
 	virtual void Move() override;
 	virtual State All() override;
 };

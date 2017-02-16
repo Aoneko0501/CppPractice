@@ -3,10 +3,9 @@
 class Bullet :public Actor{
 public:
 	Bullet();
-	Bullet(int bX, int bY,int gh);
+	Bullet(float bX, float bY,int gh);
 
-	void setPoint(int bX,int bY);
-	void setState(State s);
+	void setPoint(float bX,float bY);
 	bool isDEAD();
 	virtual void Move() override;
 	virtual void Draw() override;
