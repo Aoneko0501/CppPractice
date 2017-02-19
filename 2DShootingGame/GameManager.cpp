@@ -82,7 +82,7 @@ void GameManager::GamePlay()
 		}
 	}
 
-	if (p->state == State::DEAD) {
+	if (!p->isAlive()) {
 		g_state = GAME_OVER;
 	}
 }

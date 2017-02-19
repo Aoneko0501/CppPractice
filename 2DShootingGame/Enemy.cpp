@@ -61,11 +61,13 @@ void Enemy::Move()
 		this->y++;
 		if (this->y > WINDOW_HEIGHT)this->y = 0 - TIP_W;
 		break;
-	default:
+	case 4:
 		// ‰º‚©‚çã‚ÉˆÚ“®‚µ‘±‚¯‚é
 		this->y--;
 		if (this->y < 0 - TIP_W)this->y = WINDOW_HEIGHT;
 		break;
+	default:
+		assert(!"“G‚Ì”‚Í5‘Ì‚Ü‚Å"); // ‚»‚êˆÈŠO‚ÌŽž‚Í‹­§I—¹
 	}
 
 }
@@ -73,7 +75,7 @@ void Enemy::Move()
 void Enemy::Shot()
 {
 	int id;
-	if (this->state == State::ALIVE) {
+	if (isAlive()) {
 		this->e_counter++;
 		if ((this->e_counter % 6) == 0) {
 			LOOP(id, BULLET_MAX) {
@@ -98,10 +100,10 @@ void Enemy::Shot()
 			bullet[id]->y += bullet[id]->speed + 1.0F;
 		}
 		else if (this->type == 2) {
-			bullet[id]->y += bullet[id]->speed * sin(this->e_counter*PI/90.0F) + 2.0F;
+			bullet[id]->y += bullet[id]->speed * sin(this->e_counter*PI / 90.0F) + 2.0F;
 		}
 		else if (this->type == 3) {
-			bullet[id]->x -= bullet[id]->speed * sin((this->e_counter)*PI/90.0F) + 1.0F;
+			bullet[id]->x -= bullet[id]->speed * sin((this->e_counter)*PI / 90.0F) + 1.0F;
 			bullet[id]->y += 2.0F;
 		}
 		else if (this->type == 4) {

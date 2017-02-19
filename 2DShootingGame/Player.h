@@ -6,11 +6,12 @@
 class Player : public Actor {
 public:
 	Bullet* bullet[BULLET_MAX];
-
+	int markerHandle; // “–‚½‚è”»’è‚Ì‰æ‘œ•\Ž¦ƒnƒ“ƒhƒ‹
 public:
 	Player();
 	~Player();
 
+	virtual void Draw() override;
 	virtual void Shot() override;
 	virtual void Move() override;
 	virtual State All() override;

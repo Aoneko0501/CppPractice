@@ -24,7 +24,7 @@ public:
 	void GameClear();
 	void GameOver();
 	void CheckDamage(Actor* a, Bullet* b[]);
-	void 
+	
 
 
 };

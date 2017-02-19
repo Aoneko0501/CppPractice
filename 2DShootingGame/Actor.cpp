@@ -10,6 +10,11 @@ float Actor::getY()
 	return this->y;
 }
 
+bool Actor::isAlive()
+{
+	return (this->state == State::ALIVE) ? true : false;
+}
+
 State Actor::getState()
 {
 	return this->state;

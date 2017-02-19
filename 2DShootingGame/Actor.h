@@ -20,6 +20,7 @@ public:
 	float getX();
 	float getY();
 
+	bool isAlive();
 	State getState();
 	void setState(State s);
 	virtual void Draw();
