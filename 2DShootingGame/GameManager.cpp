@@ -61,13 +61,23 @@ void GameManager::ShowTitle()
 void GameManager::GamePlay()
 {
 	p->All();
-	int id;
+
 	// “G‚Ìî•ñXV
+	UpdateInfo();
+
+	// ƒvƒŒƒCƒ„[‚ª‚â‚ç‚ê‚Ä‚¢‚ê‚ÎƒQ[ƒ€ƒI[ƒo[‰æ–Ê‚Ö
+	if (!p->isAlive()) {
+		g_state = GAME_OVER;
+	}
+}
+
+void GameManager::UpdateInfo() {
+	int id;
 	LOOP(id, ENEMY_MAX) {
 		// ’e‚Ì“–‚½‚è”»’è‚ðs‚¤
 		CheckDamage(e[id], p->bullet); // “G->Ž©’e
 		CheckDamage(p, e[id]->bullet); // Ž©‹@->“G
-									// “G‚Ìˆ—‚ðs‚¤
+									   // “G‚Ìˆ—‚ðs‚¤
 		if (e[id]->All() == State::ALIVE) {
 			DrawFormatString(500, 20 * id, GetColor(255, 255, 255), "%d:(%.1f,%.1f)", id, e[id]->getX(), e[id]->getY());
 		}
@@ -80,10 +90,6 @@ void GameManager::GamePlay()
 			}
 			DrawFormatString(540, 20 * id, GetColor(255, 255, 255), "%d is DEAD", id);
 		}
-	}
-
-	if (!p->isAlive()) {
-		g_state = GAME_OVER;
 	}
 }
 
@@ -115,18 +121,20 @@ void GameManager::CheckDamage(Actor* a, Bullet* b[])
 			// “G”í’eˆ—
 			if (a->group == Group::ACTOR_ENEMY) {
 				if (bX > a->getX() && bX <= (a->getX() + TIP_W) &&
-					bY > a->getY() && bY <= (a->getY() + TIP_W) && a->getState() == State::ALIVE) {
+					bY > a->getY() && bY <= (a->getY() + TIP_W) && a->isAlive()) {
 					a->setState(State::DEAD);
 					b[id]->setState(State::DEAD);
 				}
 			}
 			// Ž©‹@”í’eˆ—
 			else if (a->group == Group::ACTOR_PLAYER) {
+
+				// Ž©‹@‚Ì’†SÀ•W‚ª“G’e‚Ì‰~“à‚É‘¶Ý‚µ‚Ä‚¢‚ê‚Î”í’eˆ—
 				int pX = (int)(a->getX() + (TIP_W / 2));
 				int pY = (int)(a->getY() + (TIP_W / 2));
 				int p = pow((pX - bX), 2) + pow((pY - bY), 2);
 
-				if (p <= pow(4.0, 2) && a->getState() == State::ALIVE) {
+				if (p <= pow(4.0, 2) && a->isAlive()) {
 					a->setState(State::DEAD);
 					b[id]->setState(State::DEAD);
 				}

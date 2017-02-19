@@ -15,11 +15,6 @@ bool Actor::isAlive()
 	return (this->state == State::ALIVE) ? true : false;
 }
 
-State Actor::getState()
-{
-	return this->state;
-}
-
 void Actor::setState(State s)
 {
 	this->state = s;

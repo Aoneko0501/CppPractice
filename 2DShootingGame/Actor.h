@@ -21,7 +21,6 @@ public:
 	float getY();
 
 	bool isAlive();
-	State getState();
 	void setState(State s);
 	virtual void Draw();
 	virtual void Move();

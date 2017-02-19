@@ -19,6 +19,7 @@ public:
 	void Init();
 	void Update();
 
+	void UpdateInfo();
 	void ShowTitle();
 	void GamePlay();
 	void GameClear();
