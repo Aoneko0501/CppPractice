@@ -8,6 +8,7 @@ class GameManager {
 		GAME_CLEAR,
 		GAME_OVER
 	};
+	int aliveEnemy;
 public:
 	Player* p;
 	Enemy* e[ENEMY_MAX];
@@ -25,7 +26,5 @@ public:
 	void GameClear();
 	void GameOver();
 	void CheckDamage(Actor* a, Bullet* b[]);
-	
-
-
+	void ShowMenu();
 };

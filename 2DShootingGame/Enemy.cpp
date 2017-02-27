@@ -75,7 +75,7 @@ void Enemy::Move()
 void Enemy::Shot()
 {
 	int id;
-	if (isAlive()) {
+	if (isAlive()) { // Ž©•ª‚ª¶‚«‚Ä‚¢‚½‚ç
 		this->e_counter++;
 		if ((this->e_counter % 6) == 0) {
 			LOOP(id, BULLET_MAX) {

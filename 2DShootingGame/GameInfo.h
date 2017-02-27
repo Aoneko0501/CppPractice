@@ -20,3 +20,6 @@ enum Group {
 	ACTOR_ENEMY,
 	OTHER
 };
+
+void InputKey();
+bool InputKeyChecker(char* keyCode);
