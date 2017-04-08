@@ -13,6 +13,7 @@ public:
 	Player* p;
 	Enemy* e[ENEMY_MAX];
 	GAME_STATE g_state;
+	int phase; // 敵のフェーズ
 
 public:
 	GameManager();
@@ -27,4 +28,14 @@ public:
 	void GameOver();
 	void CheckDamage(Actor* a, Bullet* b[]);
 	void ShowMenu();
+	void DrawMenu();
+	void DoMenu();
+	
+	void SetEnemys(int phase_id);
 };
+
+typedef struct {
+	int x, y;
+	int color;
+	char name[128];
+}MenuElement_t;

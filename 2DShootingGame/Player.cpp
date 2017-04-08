@@ -3,8 +3,8 @@
 // コンストラクタ
 Player::Player()
 {
-	this->x = (float)(WINDOW_WIDTH / 2.0);
-	this->y = (float)(WINDOW_HEIGHT / 2.0);
+	this->x = (float)(WINDOW_WIDTH / 2.0)-(TIP_W/2);
+	this->y = (float)(WINDOW_HEIGHT / 2.0)-(TIP_W/2);
 	this->handle = LoadGraph("../src/shooterDragon.bmp", true);
 	this->state = State::ALIVE;
 	this->speed = 5.0F;

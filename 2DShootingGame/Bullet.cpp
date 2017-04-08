@@ -27,6 +27,7 @@ void Bullet::setPoint(float bX, float bY)
 }
 
 
+// ‚±‚Ì’e‚ª”­Ë’†‚©‚Ç‚¤‚©
 bool Bullet::isDEAD()
 {
 	return (this->state == State::DEAD) ? true : false;
@@ -45,9 +46,10 @@ void Bullet::Move()
 	}
 }
 
+// •`‰æ
 void Bullet::Draw()
 {
-	if (this->state != State::DEAD) {
+	if (!this->isDEAD()) {
 		DrawGraph(this->x, this->y, handle, true);
 	}
 }

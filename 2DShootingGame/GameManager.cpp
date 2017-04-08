@@ -18,15 +18,10 @@ void GameManager::Init()
 	this->g_state = GAME_TITLE;	// ゲーム状態初期化
 	this->p = new Player();		// プレイヤー初期化
 	this->aliveEnemy = ENEMY_MAX; // 敵の数を設定
+	this->phase = 0;
 
 	// 敵初期化
-	int handle = LoadGraph("../src/Enemy/Enemy1A.bmp", true);
-	int i;
-	LOOP(i, ENEMY_MAX) {
-		float eX = (float)((WINDOW_WIDTH / ENEMY_MAX) * i);
-		float eY = 40.0F;
-		e[i] = new Enemy(eX, eY, handle, (i % ENEMY_MAX));
-	}
+	SetEnemys(this->phase);
 }
 
 // スペースキーが前のフレームで押されていなかった場合に反応させる
@@ -34,10 +29,22 @@ bool newInputSpace;
 bool oldInputSpace = false;
 bool pushSpace;
 
+bool newInputEnter;
+bool oldInputEnter = false;
+bool pushEnter;
+
+bool nextScene;
+
 void GameManager::Update() {
 	
 	newInputSpace = CheckHitKey(KEY_INPUT_SPACE);
+	newInputEnter = CheckHitKey(KEY_INPUT_RETURN);
+
 	pushSpace = (!oldInputSpace) && newInputSpace;
+	pushEnter = (!oldInputEnter) && newInputEnter;
+
+	nextScene = (pushSpace || pushEnter);
+
 	switch (this->g_state) {
 	case GAME_TITLE:
 		ShowTitle();
@@ -56,6 +63,7 @@ void GameManager::Update() {
 	}
 
 	oldInputSpace = newInputSpace;
+	oldInputEnter = newInputEnter;
 }
 
 // タイトル画面
@@ -64,6 +72,8 @@ void GameManager::ShowTitle()
 	DrawFormatString(WINDOW_WIDTH / 2 - 75, WINDOW_HEIGHT / 2, GetColor(255, 255, 255), "2D Shooting Game");
 	
 	ShowMenu();
+	DrawMenu();
+	DoMenu();
 }
 
 
@@ -82,6 +92,9 @@ void GameManager::GamePlay()
 
 	// プレイヤーがやられていればゲームオーバー画面へ
 	if (this->aliveEnemy <= 0) {
+		if (this->phase < PHASE) {
+			this->phase++;
+		}
 		g_state = GAME_CLEAR;
 	}
 
@@ -99,11 +112,6 @@ void GameManager::UpdateInfo() {
 			DrawFormatString(500, 20 * id, GetColor(255, 255, 255), "%d:(%.1f,%.1f)", id, e[id]->getX(), e[id]->getY());
 		}
 		else {
-			e[id]->rebornCounter++;
-			// 一定時間後に復活(しない)
-			if (e[id]->rebornCounter == 100) {
-				e[id]->rebornCounter = 0;
-			}
 			DrawFormatString(540, 20 * id, GetColor(255, 255, 255), "%d is DEAD", id);
 		}
 	}
@@ -113,14 +121,14 @@ void GameManager::UpdateInfo() {
 void GameManager::GameClear()
 {
 	DrawFormatString(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, GetColor(255, 255, 255), "GAME CLEAR!");
-	if (pushSpace)Init();
+	if (nextScene)Init();
 }
 
 // ゲームオーバー画面
 void GameManager::GameOver()
 {
 	DrawFormatString(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, GetColor(255, 255, 255), "GAME OVER!");
-	if (pushSpace)Init();
+	if (nextScene)Init();
 }
 
 // メニュー画面表示
@@ -134,13 +142,7 @@ bool newInputDown;
 bool oldInputDown = false;
 bool pushDown = !oldInputDown && newInputDown;
 
-int menu = 0;
-
-typedef struct {
-	int x, y;
-	int color;
-	char name[128];
-}MenuElement_t;
+int menu = 0; // 0:START, 1:OPTION, 2:EXIT
 
 // メニュー画面の要素作成
 MenuElement_t MenuElement[3]{
@@ -161,23 +163,39 @@ void GameManager::ShowMenu()
 	if (pushUp)menu--;
 	if (pushDown)menu++;
 
+	if (menu >= 3) menu = 0;
+	if (menu < 0)menu = 2;
+	
+	// キー情報更新
+	oldInputUp = newInputUp;
+	oldInputDown = newInputDown;
+}
+
+void GameManager::DrawMenu()
+{
 	// 選択したものを右へ若干ずらす
-	for (int i = 0; i < 3; i++) {
+	int i;
+	LOOP(i,3){
 		if (i == menu) {
 			MenuElement[i].x = 130;
 			MenuElement[i].color = GetColor(255, 255, 255);
-		}else{
+		}
+		else {
 			MenuElement[i].x = 100;
 			MenuElement[i].color = GetColor(105, 105, 105);
-		}			
+		}
 	}
 
 	// メニューの描画
-	for (int i = 0; i < 3; i++) {
+	LOOP(i,3) {
 		DrawFormatString(MenuElement[i].x, MenuElement[i].y, MenuElement[i].color, MenuElement[i].name);
 	}
+}
 
-	if (pushSpace) { 
+void GameManager::DoMenu()
+{
+	// 各選択を行った後の挙動
+	if (nextScene) {
 		switch (menu) {
 		case 0:
 			// ゲームスタート
@@ -185,7 +203,7 @@ void GameManager::ShowMenu()
 			break;
 
 		case 1:
-			// オプション画面へ
+			// オプション画面へ(まだ無理)
 			break;
 
 		case 2:
@@ -195,16 +213,44 @@ void GameManager::ShowMenu()
 		default:
 			// 異常終了
 			exit(1);
+			break;
 		}
-
 	}
+}
 
-	if (menu >= 3) menu = 0;
-	if (menu < 0)menu = 2;
-	
-	// キー情報更新
-	oldInputUp = newInputUp;
-	oldInputDown = newInputDown;
+void GameManager::SetEnemys(int phase_id)
+{
+	int handle = LoadGraph("../src/Enemy/Enemy1A.bmp", true);
+	int i;
+	switch (phase_id) {
+	case 0:
+		LOOP(i, ENEMY_MAX) {
+			float eX = (float)((WINDOW_WIDTH / ENEMY_MAX) * i);
+			float eY = 40.0F;
+			e[i] = new NormalEnemy1(eX, eY, handle);
+		}
+		break;
+	case 1:
+		LOOP(i, ENEMY_MAX) {
+			float eX = (float)((WINDOW_WIDTH / ENEMY_MAX) * i);
+			float eY = 40.0F;
+			e[i] = new NormalEnemy2(eX, eY, handle);
+		}
+		break;
+	case 2:
+		LOOP(i, ENEMY_MAX) {
+			float eX = (float)((WINDOW_WIDTH / ENEMY_MAX) * i);
+			float eY = 40.0F;
+			e[i] = new NormalEnemy3(eX, eY, handle);
+		}
+		break;
+	case 3:
+		break;
+	default:
+		// phase_idが0~3以外の場合は異常とみなし終了
+		exit(1);
+		break;
+	}
 }
 
 

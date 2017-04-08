@@ -1,5 +1,6 @@
 #include "GameInfo.h"
 
+/*
 // ƒL[“ü—Í”»’è
 int key[256]; // 0:“ü—Í‚³‚ê‚Ä‚¢‚È‚¢, 1:“ü—Í‚³‚ê‚½uŠÔ, 2:“ü—Í‚³‚ê‚Ä‚¢‚é
 void InputKey()
@@ -14,5 +15,5 @@ void InputKey()
 		else key[i] = 0;
 	}
 }
-
+*/
 
